@@ -1,0 +1,38 @@
+Pour l'application A, se rendre dans le dossier "Recherche Locale ILS (Solution A)".
+
+La page 12 du rapport présente une image du parser, et donc les commandes possibles ainsi que les valeurs par défaut de ces commandes. 
+L'application A offre comme formes des ellipses, des rectangles et des triangles. 
+Elle offre la possibilité de reprise de recherche sur sauvegarde (Chaque recherche sauvegarde le meilleur génome trouvé (à chaque macro itération) dans 'best_genome.gen'. Il est donc possible de l'utiliser pour reprise. Il peut cela dit être renommé puis conservé pour être réutilisé via le paramètre '--from_gen' pour reprise, par exemple.).
+Le fichier à lancer est le fichier 'hall.py'. 
+
+Un exemple de commande est
+
+'python hall.py --time 1800'
+
+pour faire tourner la recherche pour 30 minutes. Par défaut, l'image source est le fichier 'mona.jpg'. 
+Par défaut, le nom du fichier d'output est 'mutated_phenotype'. Si volonté d'un autre nom, préciser le nom sans extension, car le programme se chargera d'en créer une version '.png' en plus d'une version '.svg'. 
+Le fichier 'base_phenotype.svg' ou 'base_phenotype.png' est le fichier phénotype de base (les formes disposées aléatoirement de départ).
+Avec 'mutated_phenotype.svg' ou 'mutated_phenotype.png' il est possible de suivre en temps réel l'évolution (en laissant le fichier ouvert. SVG conseillé).
+Par défaut, la recherche se fait avec des ellipse, à raison de 118 formes.
+
+Le fichier 'fitness_convergence.png' permet d'observer la courbe de convergence de la dernière recherche conclue.
+
+Plus de détails dans le rapport. (Autant que des démos.)
+
+******************************************************************************************
+
+Pour l'application B, se rendre dans le dossier "Recherche Exploration (Solution B)".
+
+Les arguments du parseur sont:
+    --input, required = False ; c'est ici que l'on choisi l'image que l'on veut approximer, ou par défaut lancer l'application sur tous les fichiers d'un dossier 'images/' au même rang que le code python
+    --n, default=150 ; c'est le nombre de formes que l'on accorde au programme.
+    --time, default=60 ; c'est le temps, en secondes, que le programme va prendre sur l'approximation
+    --shape, default="ellipse", choices=["ellipse", "rect"] ; c'est la forme que le programme doit utiliser pour l'approximation. le programme actuel accepte les éllipses (ellipse) et les rectangles (rect)
+
+Le fichier à lancer est le fichier 'png2svg.py'.
+
+Un exemple de commande est : 
+'python png2svg.py --input monalisa.png --time 3600'
+Le lancement du programme ouvre une fenetre de visualisation de l'approximation en temps réel, avec comparaison entre l'image source et l'image approximée, avec une courbe de la fitness.
+
+IMPORTANT : Pour la sauvegarde des résultats (images approximées résultantes), il est nécessaire d'avoir un dossier 'outputs/' au même rang que le code python
