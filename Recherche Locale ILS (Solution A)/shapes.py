@@ -249,6 +249,18 @@ class Triangle(Shape):
         else:
             # Mutation Couleur
             self._mutate_color()
+
+    def get_bounds(self):
+        xs = [p[0] for p in self.points]
+        ys = [p[1] for p in self.points]
+        
+        min_x = min(xs)
+        min_y = min(ys)
+        max_x = max(xs)
+        max_y = max(ys)
+        
+        return (min_x, min_y, max_x - min_x, max_y - min_y)
+
             
 
 def get_random_shape(max_w, max_h):
