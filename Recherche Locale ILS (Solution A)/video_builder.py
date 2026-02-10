@@ -41,7 +41,7 @@ for i, svg_path in enumerate(svg_files):
 
 # 3️⃣ Créer la vidéo
 print(f"🎬 Création de la vidéo {output_video}...")
-clip = ImageSequenceClip(png_files, fps=fps).set_duration(duration_seconds)
+clip = ImageSequenceClip(png_files, fps=fps)
 clip.write_videofile(output_video, codec="libx264", audio=False)
 
 print("✅ Vidéo terminée !")
