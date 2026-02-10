@@ -3,6 +3,7 @@ import rerender
 import time
 import matplotlib.pyplot as plt
 import os
+import shutil
 
 def get_union_bounds(bbox1, bbox2):
     """Calcule le rectangle englobant de deux rectangles"""
@@ -21,10 +22,6 @@ def get_union_bounds(bbox1, bbox2):
 def run_fitness_improver(genome, w, h, target_img_arr, outout_img_name, iteration=999999999, renouncement_deg=50, current_time=None, time_limit=300, genome_save_path="best_genome.gen"):
 
     #Préparation des paramètres pour les frames
-    n_steps = 50
-    step_interval = time_limit / n_steps
-    next_step_time = 0.0
-    step_index = 0
     steps_dir = "steps"
     os.makedirs(steps_dir, exist_ok=True)
 
@@ -49,15 +46,6 @@ def run_fitness_improver(genome, w, h, target_img_arr, outout_img_name, iteratio
     # Variables pour suivre la meilleure solution
     best_genome = genome
 
-    #On save le premier step
-    rerender.save_to_svg(
-    best_genome, w, h,
-    os.path.join(steps_dir, f"step_{step_index}.svg")
-    )
-    step_index += 1
-    next_step_time += step_interval
-    ######################
-
     print(f"🚀 Démarrage de l'optimisation. Erreur initiale : {current_sse}")
 
     main_loop = 0
@@ -66,21 +54,6 @@ def run_fitness_improver(genome, w, h, target_img_arr, outout_img_name, iteratio
         # 2. VÉRIFICATION DU TIMER
         if time_limit is not None:
             elapsed_time = time.time() - current_time
-
-            # ⏺️ Time-based SVG capture
-            while (
-                step_index < n_steps and
-                elapsed_time >= next_step_time
-            ):
-                rerender.save_to_svg(
-                    best_genome, w, h,
-                    os.path.join(steps_dir, f"step_{step_index}.svg")
-                )
-                print(f"📸 Saved step_{step_index}.svg at t={elapsed_time:.2f}s")
-
-                step_index += 1
-                next_step_time += step_interval
-                #############################################
                         
             if elapsed_time > time_limit:
                 print(f"⏱️ Temps écoulé ({elapsed_time:.1f}s) ! Arrêt prématuré à l'itération {main_loop}.")
@@ -142,14 +115,21 @@ def run_fitness_improver(genome, w, h, target_img_arr, outout_img_name, iteratio
         print(f"Itération {main_loop} — SSE (Erreur) : {current_sse}")
 
         # Sauvegardes
-        rerender.save_to_svg(best_genome, w, h, outout_img_name + ".svg")
+        step_path = os.path.join(steps_dir, f"step_{main_loop}.svg")
+        rerender.save_to_svg(best_genome, w, h, step_path)
+            
+        print(f"📸 Saved step_{main_loop}.svg at t={elapsed_time:.2f}s")
+
+        # Copier vers current.svg (écrasement rapide)
+        shutil.copy(step_path, outout_img_name + ".svg")
         
         if genome_save_path is not None:
             # Assure-toi que save_genome est bien importé de utils
             save_genome(best_genome, genome_save_path)
 
 
-    rerender.save_to_png(best_genome, w, h, outout_img_name + ".png") #On save le .png seulement à la fin
+    rerender.save_to_svg(best_genome, w, h, outout_img_name + ".svg")
+    rerender.save_to_png(best_genome, w, h, outout_img_name + ".png") #On save le .png et .svg final seulement à la fin
 
     # 3. PLOT FINAL
     plt.figure(figsize=(8, 5))
