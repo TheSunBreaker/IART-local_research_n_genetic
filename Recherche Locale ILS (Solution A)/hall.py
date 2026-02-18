@@ -25,8 +25,8 @@ args = parser.parse_args()
 if not (118 <= args.n <= 20000):
     parser.error("--n must be between 118 and 20000")
 
-if not (30 <= args.time <= 3000):
-    parser.error("--time must be between 30 and 3000")
+if not (30 <= args.time <= 4000):
+    parser.error("--time must be between 30 and 4000")
 
 mon_genome = [] #Liste qui retiendra les paramètres des formes.
 
