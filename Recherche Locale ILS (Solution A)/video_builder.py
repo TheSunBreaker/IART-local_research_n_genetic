@@ -4,8 +4,8 @@ import cairosvg
 from moviepy import ImageSequenceClip
 
 # ⚡ Paramètres
-steps_dir = "steps"
-output_video = "output.mp4"
+steps_dir = "./outs/steps"
+output_video = "./outs/output.mp4"
 duration_seconds = 13
 
 # 1️⃣ Récupérer tous les SVG triés numériquement

@@ -3,6 +3,7 @@
 
 import cv2
 import numpy as np
+import os
 
 def render_phenotype(genome, width, height, bg_color=(0, 0, 0)):
     """
@@ -20,11 +21,20 @@ def render_phenotype(genome, width, height, bg_color=(0, 0, 0)):
     return canvas
 
 def save_to_png(genome, width, height, filename):
+
+    # Créer le dossier si nécessaire
+    os.makedirs(os.path.dirname(filename), exist_ok=True)
+
     img = render_phenotype(genome, width, height)
     cv2.imwrite(filename, img)
     print(f"PNG sauvegardé : {filename}")
 
 def save_to_svg(genome, width, height, filename):
+
+    
+    # Créer le dossier si nécessaire
+    os.makedirs(os.path.dirname(filename), exist_ok=True)
+    
     svg_content = f'<svg width="{width}" height="{height}" xmlns="http://www.w3.org/2000/svg">\n'
     
     # Fond noir par défaut (pour être cohérent avec OpenCV)

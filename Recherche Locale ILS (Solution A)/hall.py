@@ -63,8 +63,8 @@ else:
 
 print("Avant... Chargé.")
 
-rerender.save_to_png(mon_genome, W, H, "base_phenotype.png")
-rerender.save_to_svg(mon_genome, W, H, "base_phenotype.svg")
+rerender.save_to_png(mon_genome, W, H, "./outs/base_phenotype.png")
+rerender.save_to_svg(mon_genome, W, H, "./outs/base_phenotype.svg")
 
 print("C'est partit pour ", args.time, "secondes ; avec ", args.n , args.shape, "s.")
 print("Mutation en cours...")

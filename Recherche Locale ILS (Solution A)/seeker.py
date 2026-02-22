@@ -19,10 +19,10 @@ def get_union_bounds(bbox1, bbox2):
     return (min_x, min_y, max_x - min_x, max_y - min_y)
 
 
-def run_fitness_improver(genome, w, h, target_img_arr, outout_img_name, iteration=999999999, renouncement_deg=50, current_time=None, time_limit=300, genome_save_path="best_genome.gen"):
+def run_fitness_improver(genome, w, h, target_img_arr, outout_img_name, iteration=999999999, renouncement_deg=50, current_time=None, time_limit=300, genome_save_path="./outs/best_genome.gen"):
 
     #Préparation des paramètres pour les frames
-    steps_dir = "steps"
+    steps_dir = "./outs/steps"
     os.makedirs(steps_dir, exist_ok=True)
 
 
@@ -51,10 +51,10 @@ def run_fitness_improver(genome, w, h, target_img_arr, outout_img_name, iteratio
     main_loop = 0
     for main_loop in range(iteration):
 
+        elapsed_time = time.time() - current_time
+
         # 2. VÉRIFICATION DU TIMER
         if time_limit is not None:
-            elapsed_time = time.time() - current_time
-                        
             if elapsed_time > time_limit:
                 print(f"⏱️ Temps écoulé ({elapsed_time:.1f}s) ! Arrêt prématuré à l'itération {main_loop}.")
                 break
@@ -121,15 +121,14 @@ def run_fitness_improver(genome, w, h, target_img_arr, outout_img_name, iteratio
         print(f"📸 Saved step_{main_loop}.svg at t={elapsed_time:.2f}s")
 
         # Copier vers current.svg (écrasement rapide)
-        shutil.copy(step_path, outout_img_name + ".svg")
+        shutil.copy(step_path, "./outs/" + outout_img_name + ".svg")
         
         if genome_save_path is not None:
-            # Assure-toi que save_genome est bien importé de utils
             save_genome(best_genome, genome_save_path)
 
 
-    rerender.save_to_svg(best_genome, w, h, outout_img_name + ".svg")
-    rerender.save_to_png(best_genome, w, h, outout_img_name + ".png") #On save le .png et .svg final seulement à la fin
+    rerender.save_to_svg(best_genome, w, h, "./outs/" + outout_img_name + ".svg")
+    rerender.save_to_png(best_genome, w, h, "./outs/" + outout_img_name + ".png") #On save le .png et .svg final seulement à la fin
 
     # 3. PLOT FINAL
     plt.figure(figsize=(8, 5))
@@ -139,7 +138,7 @@ def run_fitness_improver(genome, w, h, target_img_arr, outout_img_name, iteratio
     plt.title("Convergence de la recherche locale")
     plt.grid(True)
     plt.tight_layout()
-    plt.savefig("fitness_convergence.png")
+    plt.savefig("./outs/fitness_convergence.png")
     plt.close()
 
     # On retourne la fitness négative pour rester cohérent avec ton ancien code
